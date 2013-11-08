@@ -4,7 +4,7 @@ require 'capybara'
 require 'capybara/dsl'
 require 'database_cleaner'
 
-ENV['RACK_ENV'] = 'test'
+# ENV['RACK_ENV'] = 'test'
 
 #Suppress database output
 ActiveRecord::Base.logger.level = Logger::INFO
