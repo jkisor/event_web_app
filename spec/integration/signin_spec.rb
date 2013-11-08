@@ -16,7 +16,7 @@ describe "signing in" do
 			click_button "Sign in"
 		end
 		it { should have_selector('div.alert.alert-success', text: 'Welcome back') }
-	
+		it { should have_css('#current-username'), text: user.name }
 		context "after signout" do
 			before { click_button "Sign out" }
 			it { should have_link('Sign in') }

@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html>
+	<header>
+
+	</header>
+	<body>
+		<div ng-app="eventApp">
+			<div ng-controller="EventsController">
+				<ul>
+				<li ng-repeat="event in events"> {{event.name}}</li>
+				</ul>
+			</div>
+		</div>
+    	
+    	<script src="https://code.jquery.com/jquery.js"></script>
+    	<script src="js/bootstrap.min.js"></script>
+    	<script src="js/angular.min.js"></script>
+    	<script src="js/app.js"></script>
+	</body>
+</html>

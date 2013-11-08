@@ -1,5 +1,6 @@
 There are no events.
 <% if signed_in? %>
+	<span id="current-username"><%=current_user.name%></span>
 	<form action="/signout", method ="post" style="display: inline">
 	<input type="hidden" name="_method" value ="delete">
 		<button type="submit" class="btn btn-default">

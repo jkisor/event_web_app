@@ -5,6 +5,7 @@ gem "sinatra-flash", "~> 0.3.0"
 gem "sqlite3"
 gem "activerecord"
 gem "sinatra-activerecord"
+gem "json"
 
 group :development do
 	gem "shotgun"

@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html>
+<html ng-app="EventApp">
 	<header>
 		<title>Event App</title>
 		<meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -7,9 +7,15 @@
 	</header>
 	<body>
 		<%= erb :'_flash' %>
+		<!-- <input type="text" ng-model="name"/> {{name}} -->
+		<div>
+			<div ng-view=""></div>
+		</div>
 		<%= yield %>
+		<p>Hi!</p>
     	
     	<script src="//code.jquery.com/jquery.js"></script>
-    	<script src="js/bootstrap.min.js"></script>	
+    	<script src="js/bootstrap.min.js"></script>
+    	<script src="js/angular.min.js"></script>	
 	</body>
 </html>

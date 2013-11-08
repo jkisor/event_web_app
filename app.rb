@@ -19,9 +19,14 @@ end
 Event = Struct.new(:name, :status)
 
 get '/' do
-	@events = [Event.new("Metal Concert", status: "available"),
-						Event.new("Party", status: "attending")]
+	@events = [Event.new("Metal Concert", "available"),
+						Event.new("Party", "attending")]
 	erb :'events/index'
+end
+
+get '/events' do
+	[Event.new("Metal Concert", "available"),
+						Event.new("Party", "attending")].to_json
 end
 
 get '/signup' do
@@ -57,3 +62,6 @@ delete '/signout' do
 	sign_out
 	redirect '/'
 end
+
+# get '/view1' do
+# end
