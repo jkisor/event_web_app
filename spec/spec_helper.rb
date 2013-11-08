@@ -3,6 +3,7 @@ require 'rack/test'
 require 'capybara'
 require 'capybara/dsl'
 require 'database_cleaner'
+require './helpers/session_helper'
 
 # ENV['RACK_ENV'] = 'test'
 

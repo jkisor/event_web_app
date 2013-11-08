@@ -17,10 +17,10 @@ describe "signing in" do
 		end
 		it { should have_selector('div.alert.alert-success', text: 'Welcome back') }
 	
-		# context "after signout" do
-		# 	before { click_button "Sign out" }
-		# 	it { should have_button('Sign in') }
-		# end
+		context "after signout" do
+			before { click_button "Sign out" }
+			it { should have_link('Sign in') }
+		end
 	end
 
 

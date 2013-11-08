@@ -2,11 +2,19 @@ require "sinatra"
 require "sinatra/activerecord"
 require 'sinatra/flash'
 
+Dir["./helpers/*.rb"].each { |file| require file }
 Dir["./models/*.rb"].each { |file| require file }
 
 enable :sessions
 
 set :database, "sqlite3:///app.db"
+before do
+ 	@session = session
+end
+
+helpers do
+ 	include SessionHelper	
+end
 
 Event = Struct.new(:name, :status)
 
@@ -34,12 +42,18 @@ get '/signin' do
 end
 
 post '/signin' do
-	@user = User.find_by(name: params[:user][:name])
-	if @user.nil?
+	user = User.find_by(name: params[:user][:name])
+	if user.nil?
 		flash.now[:danger] = "Invalid"
 		erb :'signin'
 	else
+		sign_in user
 		flash[:success] = "Welcome back"
 		redirect '/'
 	end
+end
+
+delete '/signout' do
+	sign_out
+	redirect '/'
 end
