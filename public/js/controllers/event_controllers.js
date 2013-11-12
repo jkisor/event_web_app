@@ -9,18 +9,36 @@ app.controller('EventDetailController',
     	};
 
     	$scope.attendEvent = function() {
-    		currentUser = UserSessionService.currentUser();
-    		currentUser.events.push($scope.event);
+    		$scope.user.events.push($scope.event);
 
-    		UserFactory.update(currentUser);
-    		//UserFactory.attend(cuser)
-    		//UserSessionService.currentUser().events << $scope.event;
-    		console.log("Attend! :" + currentUser.name);
+    		UserFactory.update($scope.user);
+			console.log("Attend! :" + $scope.user.name);
     	};
+
+    	$scope.unattendEvent = function() {
+    		removeEventFromUser($scope.event);
+
+    		UserFactory.update($scope.user);
+			console.log("Unattend! :" + $scope.user.name);
+    	};
+
+    	$scope.isAttending = function() { 
+    		return $scope.user.events.indexOf($scope.event) > -1
+    	}
+
     	$scope.showUser = function(userId) {
     		$location.path('/users/' + userId)
     	}
 
+    	var removeEventFromUser = function(event)
+    	{
+    		var index = $scope.user.events.indexOf(event);
+    		if(index > -1) {
+    			$scope.user.events.splice(index, 1)
+    		}
+    	}
+
+    	$scope.user = UserSessionService.currentUser();
 		$scope.event = EventFactory.show({id: $routeParams.id});
 	}
 );

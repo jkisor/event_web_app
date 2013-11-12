@@ -45,3 +45,21 @@ app.controller('SigninController',
 		}
 	}
 );
+
+app.controller('NavBarController', 
+	function($scope, $location, UserSessionService) {
+		$scope.newUser = function() {
+			$location.path('/signup')
+		}
+
+		$scope.signIn = function() {
+			$location.path('/signin')
+		}
+
+		$scope.showUser = function() {
+			$location.path('/users/' + $scope.currentUser.id)
+		}
+		
+		$scope.currentUser = UserSessionService.currentUser();
+	}
+);

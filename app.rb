@@ -81,7 +81,11 @@ put '/users/:id' do |id|
 	# User.find(id).update_attributes(params)
 	# params["events_attributes"].each do |event|
 	params["events"].each do |event|
-		user.events << Event.find(event["id"]) if !user.events.include?(Event.find(event["id"]))
+		foundEvent = Event.find(event["id"]);
+
+		if !user.events.include?(foundEvent)
+			user.events << foundEvent
+		end
 	end
 	user.save
 	user.to_json(include: :events)

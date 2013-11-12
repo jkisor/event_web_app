@@ -9,7 +9,15 @@
 	  <p>When: {{event.datetime}}</p>
 	  Details:
 	  <p class="well">{{event.description}}</p>
-	  <p><button class="btn btn-primary btn-lg" role="button" ng-click="attendEvent()">Attend</button></p>
+	  <p>
+<!-- 		<span ng-hide="isAttending()">
+			<button class="btn btn-primary btn-lg" role="button" ng-click="attendEvent()">Register</button>
+	    </span>
+	    <span ng-show="isAttending()">
+	    	<button class="btn btn-primary btn-lg" role="button" ng-click="unattendEvent()">Unregister</button>
+	    </span> -->
+	  	<button class="btn btn-primary btn-lg" role="button" ng-click="attendEvent()">Attend</button>
+	  </p>
 	</div>
 	<p>Attendees</p>
 	<ul class="list-group">
