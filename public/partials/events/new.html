@@ -1,0 +1,16 @@
+<div class="container">
+	<form role="form">
+	  	<div class="form-group">
+	    	<input type="text" class="form-control" placeholder="Event Name" ng-model="event.name">
+	  	</div>
+	  	
+	  	<div class="form-group">
+	    	<input type="text" class="form-control" placeholder="Location" ng-model="event.location">
+	  	</div>
+	  	
+	  	<textarea class="form-control" rows="3" placeholder="Description" ng-model="event.description"></textarea>
+
+	  	<button class="btn btn-primary" ng-click="createEvent()">Submit</button>
+	</form>
+
+</div>

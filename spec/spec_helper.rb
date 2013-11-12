@@ -2,15 +2,19 @@ require './app'
 require 'rack/test'
 require 'capybara'
 require 'capybara/dsl'
+require 'capybara/webkit'
 require 'database_cleaner'
 require './helpers/session_helper'
 
-# ENV['RACK_ENV'] = 'test'
+#ENV['RACK_ENV'] = 'test'
 
 #Suppress database output
 ActiveRecord::Base.logger.level = Logger::INFO
 
+Capybara.javascript_driver = :webkit
 Capybara.app = Sinatra::Application
+
+
 
 module RSpecMixin
   include Rack::Test::Methods
@@ -22,6 +26,7 @@ RSpec.configure do |c|
 	c.include RSpecMixin
 	c.include Capybara::DSL
 
+ 
 	c.before(:suite) do
 	    #DatabaseCleaner.strategy = :transaction
 		#DatabaseCleaner.clean_with(:truncation)
