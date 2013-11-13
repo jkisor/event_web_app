@@ -11,17 +11,36 @@ eventApp.config(function($routeProvider) {
     // $routeProvider.when('/users/:id', { controller: })
     $routeProvider.otherwise({ redirectTo: '/events' });
  });
+
 eventApp.run(
-	function run() {
-        // if(!SessionService.isSignedIn())
-        // 	$location.path('/signin')
-        // else
-        // 	SessionService.sign_in
+	function run($rootScope, $route, $location, UserSessionService, SessionFactory) 
+    {    
+        var token = UserSessionService.token();
+
+        if(token != null)
+        {
+            SessionFactory.create({token:token}, 
+                function(response) 
+                { 
+                    UserSessionService.signIn(response);
+                    $location.path('/events');
+                },
+                function() 
+                {
+                    console.log("sign in failure!");
+                }
+            );
+        }
+
+
+
+        $rootScope.$on('$locationChangeStart', 
+            function(event, next, current) 
+            { 
+                console.log(next);
+                if(UserSessionService.currentUser() == null)
+                    $location.path('/signin');
+            }
+        );
     }
 );
-
-//eventApp.run(
-	//function run(SessionService, UserRestService) {
-        // var _user = UserRestService.requestCurrentUser();
-        // SessionService.setCurrentUser(_user);
-//});

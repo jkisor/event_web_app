@@ -1,46 +1,44 @@
 var app = angular.module('eventApp.controllers');
 
 app.controller('EventDetailController', 
-	function($scope, EventFactory, UserFactory, UserSessionService, 
-		User, Event, $routeParams, $location) {
-		$scope.user = new User();
-		$scope.event = new Event();
+	function($scope, $routeParams, $location, 
+		EventService, UserSessionService, User, Event) 
+	{
+		var user = $scope.user = new User();
+		var event = $scope.event = new Event();
 
 		//user
     	var u = UserSessionService.currentUser();
     	angular.extend($scope.user, u);
 
     	//event
-		EventFactory.show({id: $routeParams.id}, function(e) {
+		EventService.show({id: $routeParams.id}, function(e) 
+		{
 			angular.extend($scope.event, e);
 		});
 
-		$scope.deleteEvent = function (eventId) {
-      		EventFactory.delete({ id: eventId });
+		$scope.deleteEvent = function (eventId) 
+		{
+      		EventService.delete({ id: eventId });
       		$location.path('/events')
     	};
 
-    	$scope.attend = function() {
-    		//Todo: update "event" too that the list in the view is updated
-    		
-    		// $scope.user.attend($scope.event);
-    		// UserFactory.update($scope.user, renderUser);
-    		$scope.event.register($scope.user);
-    		EventFactory.update($scope.event, 
-    			function(e) {
+		$scope.attend = function() 
+		{
+			event.register(user);
+
+			EventService.update(event, 
+				function(e) {
 				angular.extend($scope.event, e);
 			});
 
-    	}
+		}
 
-    	$scope.unattend = function() {
+    	$scope.unattend = function() 
+    	{
+    		event.unregister(user);
 
-    		//Todo: update "event" too that the list in the view is updated
-    		// $scope.user.unattend($scope.event);
-    		// UserFactory.update($scope.user, renderUser);
-
-    		$scope.event.unregister($scope.user);
-    		EventFactory.update($scope.event, 
+    		EventService.update(event, 
     			function(e) {
 				angular.extend($scope.event, e);
 			});
@@ -48,16 +46,11 @@ app.controller('EventDetailController',
 
     	$scope.isUserAttending = function()
     	{
-    		// doesnt update unregister/register button: find out why.
-    	    //return user.isAttending($scope.event) > -1;
-    		
-    		//works in user verson
-    		//return $scope.user.indexOfEvent($scope.event) > -1;
-
-    		return $scope.event.indexOfUser($scope.user) > -1;
+    		return event.indexOfUser(user) > -1;
     	}
 
-    	$scope.showUser = function(userId) {
+    	$scope.showUser = function(userId) 
+    	{
     		$location.path('/users/' + userId)
     	}
 
@@ -104,6 +97,12 @@ app.controller('EventsController',
 		$scope.signIn = function()
 		{
 			$location.path('/signin')
+		}
+
+		$scope.signOut = function()
+		{
+			UserSessionService.signOut();
+			$scope.signIn();
 		}
 
 		$scope.showUser = function()

@@ -111,25 +111,13 @@ end
 post '/signin' do
 	params = JSON.parse(request.body.read)
 
-	# puts "ZZZZZZZZZZ"
-	# puts params["username"]
-	# puts params["password"]
-	# puts "ZZZZZZZZZZ"
-	name = params["username"]
-	password = params["password"]
-
-	# user = User.find_by(name: params["username"])
-	user = User.authenticate(name, password)
+	user = identify_user(params);
 	
 	if user.nil?
 		raise "ERROR!!"
 		puts "USER NOT FOUND"
 	else
 		puts "USER FOUND"
-		puts "////////////////////////////////////////////"
-		puts user.to_json(include: :events)
-
-		puts "////////////////////////////////////////////"
 
 		return user.to_json(include: :events)
 	end
@@ -143,6 +131,28 @@ post '/signin' do
 	# 	flash[:success] = "Welcome back"
 	# 	redirect '/'
 	# end
+end
+
+def identify_user(params)
+	puts "!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!"
+		puts "IDENTIFY"
+	puts "!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!"
+
+	if params["token"].nil? 
+		puts "!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!"
+		puts "username and password"
+		puts "!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!"
+		name = params["username"]
+		password = params["password"]
+
+		user = User.authenticate(name, password)	
+	else
+		puts "!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!"
+		puts params["token"]
+		puts "!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!"
+
+		# user = User.find_by(remember_token: params["token"]);
+	end
 end
 
 

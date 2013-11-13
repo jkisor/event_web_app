@@ -155,9 +155,9 @@ services.factory('EventsFactory',
     })
 });
 
-services.factory('EventFactory', 
+services.factory('EventService', 
     function ($resource) {
-        console.log("EventFactory");
+        console.log("EventService");
         return $resource('/events/:id', {}, {
             show: { method: 'GET' },
             update: { method: 'PUT', params: {id: '@id'} },
@@ -197,7 +197,7 @@ services.factory('UserSessionService',
         var currentUser = null;
         return {
             currentUser: function() { return currentUser },
-
+            token: function() { return $cookieStore.get('remember_token') },
             signIn: function(user) {
                 currentUser = user;
                 $cookieStore.put('remember_token', user.remember_token)
