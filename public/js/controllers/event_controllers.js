@@ -1,45 +1,80 @@
 var app = angular.module('eventApp.controllers');
 
 app.controller('EventDetailController', 
-	function($scope, EventFactory, UserFactory, UserSessionService, $routeParams, $location) {
+	function($scope, EventFactory, UserFactory, UserSessionService, 
+				eventModel, userModel, $routeParams, $location) {
+		var one = userModel;
+		var two = userModel;
+		console.log(userModel);
+		console.log(one===two);
+
+		//Current User
+		var temp = userModel;
+    	var u = UserSessionService.currentUser();
+    	angular.extend(temp, u);
+    	$scope.userModel = temp;
+
+    	//Event
+		$scope.eventModel = eventModel;
+
+		EventFactory.show({id: $routeParams.id}, function(e) {
+		 	eventModel = {};
+			angular.extend(eventModel, e);
+		 	$scope.eventModel = eventModel;
+		});
 
 		$scope.deleteEvent = function (eventId) {
       		EventFactory.delete({ id: eventId });
       		$location.path('/events')
     	};
 
-    	$scope.attendEvent = function() {
-    		$scope.user.events.push($scope.event);
+    	$scope.attend = function(event) {
+    		//Todo: update "event" too that the list in the view is updated
+    		
+    		//$scope.eventModel.register(userMode)
+    		//var e = EventFactory.update($scope.eventModel)
+    		//angular.extend($scope.eventModel, e);
 
-    		UserFactory.update($scope.user);
-			console.log("Attend! :" + $scope.user.name);
-    	};
+    		$scope.userModel.attend($scope.eventModel);
 
-    	$scope.unattendEvent = function() {
-    		removeEventFromUser($scope.event);
+    		var u = UserFactory.update($scope.userModel, 
+    			function()
+	    		{
+		 			userModel = {};
+    				angular.extend(userModel, u);
+    				$scope.userModel = userModel;
+	    		}
+	    	);
+    	}
 
-    		UserFactory.update($scope.user);
-			console.log("Unattend! :" + $scope.user.name);
-    	};
+    	$scope.unattend = function(event) {
 
-    	$scope.isAttending = function() { 
-    		return $scope.user.events.indexOf($scope.event) > -1
+    		//Todo: update "event" too that the list in the view is updated
+
+    		$scope.userModel.unattend(event);
+
+    		var u = UserFactory.update($scope.userModel, 
+    			function()
+	    		{
+		 			userModel = {};
+    				angular.extend(userModel, u);
+    				$scope.userModel = userModel;
+	    		}
+    		);
+
+    		// ? may have to reinstance the serivce
+    	}
+
+    	$scope.isUserAttending = function(user)
+    	{
+    		// doesnt update unregister/register button: find out why.
+    	    //return user.isAttending($scope.eventModel) > -1;
+    		return user.indexOfEvent($scope.eventModel) > -1;
     	}
 
     	$scope.showUser = function(userId) {
     		$location.path('/users/' + userId)
     	}
-
-    	var removeEventFromUser = function(event)
-    	{
-    		var index = $scope.user.events.indexOf(event);
-    		if(index > -1) {
-    			$scope.user.events.splice(index, 1)
-    		}
-    	}
-
-    	$scope.user = UserSessionService.currentUser();
-		$scope.event = EventFactory.show({id: $routeParams.id});
 	}
 );
 

@@ -1,6 +1,73 @@
 var services = angular.module('eventApp.services', ['ngResource', 'ngCookies']);
 
 // var baseUrl = 'http://localhost\\:8080';
+
+services.service('userModel', 
+    function() {
+        console.log("UserModel@@@");
+        var self = this;
+
+        this.events = [];
+        this.attend = function(event){
+            this.events.push(event);
+        }
+
+        this.unattend = function(event) {
+            removeEvent(event);
+        }
+
+        this.isAttending = function(event) {
+            return this.indexOfEvent(event) > -1;
+        }
+
+        this.indexOfEvent = function(event)
+        {
+            for(var i = 0; i < this.events.length; i++)
+            {
+                if(this.events[i].id == event.id)
+                    return i;
+            }       
+            return -1;
+        } 
+
+        var removeEvent = function(event)
+        {
+            var index = self.indexOfEvent(event);
+            if(index > -1)
+                self.events.splice(index, 1);           
+        }
+                
+    });
+services.service('eventModel', 
+    function() {
+        this.users = [];
+        this.name = "Untitled";
+        this.location = "Somewhere";
+        this.datetime = "Soon";
+        this.description = "No Description";
+
+        // this.attendees = [];
+        // this.name = "name";
+        // this.location = "location";
+        // this.datetime = "datetime";
+        // this.description = "description";
+        
+        this.register = function(user) {
+            //tests?: unique validation
+            this.users.push(user);
+        };
+
+        this.unregister = function() {
+            //this.attendee
+        };
+
+        this.isUserRegistered = function(user) {
+            return this.users.indexOf(user) > -1;
+        } 
+                
+    });
+
+/////////////////
 services.factory('EventsFactory', 
     function ($resource) { 
         return $resource('/events', {}, {
@@ -11,6 +78,7 @@ services.factory('EventsFactory',
 
 services.factory('EventFactory', 
     function ($resource) {
+        console.log("EventFactory");
         return $resource('/events/:id', {}, {
             show: { method: 'GET' },
             // update: { method: 'PUT', params: {id: '@id'} },

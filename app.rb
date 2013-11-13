@@ -27,7 +27,7 @@ get '/' do
 end
 
 get '/events' do
-	Event.all.to_json
+	Event.all.to_json(include: :users)
 	# json Event.all
 end
 
@@ -80,13 +80,21 @@ put '/users/:id' do |id|
 	# @order = @customer.orders.build(@data[:order])
 	# User.find(id).update_attributes(params)
 	# params["events_attributes"].each do |event|
-	params["events"].each do |event|
-		foundEvent = Event.find(event["id"]);
+	
 
-		if !user.events.include?(foundEvent)
-			user.events << foundEvent
-		end
+
+	user.events = []
+	params["events"].each do |event|
+		user.events << Event.find(event["id"]);
 	end
+	#below works
+	# params["events"].each do |event|
+	# 	foundEvent = Event.find(event["id"]);
+
+	# 	if !user.events.include?(foundEvent)
+	# 		user.events << foundEvent
+	# 	end
+	# end
 	user.save
 	user.to_json(include: :events)
 end
