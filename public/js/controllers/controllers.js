@@ -1,13 +1,13 @@
 var app = angular.module('eventApp.controllers', [])
 
 app.controller('UserDetailController',
-	function($scope, $location, $routeParams, UserFactory) {
+	function($scope, $location, $routeParams, UserService) {
 
 		$scope.viewEvent = function(eventId)
 		{
 			$location.path('/events/'+eventId)
 		}
-		$scope.user = UserFactory.show({id: $routeParams.id});
+		$scope.user = UserService.show({id: $routeParams.id});
 	}
 );
 

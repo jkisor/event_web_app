@@ -134,24 +134,14 @@ post '/signin' do
 end
 
 def identify_user(params)
-	puts "!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!"
-		puts "IDENTIFY"
-	puts "!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!"
 
 	if params["token"].nil? 
-		puts "!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!"
-		puts "username and password"
-		puts "!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!"
 		name = params["username"]
 		password = params["password"]
 
 		user = User.authenticate(name, password)	
 	else
-		puts "!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!"
-		puts params["token"]
-		puts "!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!"
-
-		# user = User.find_by(remember_token: params["token"]);
+		user = User.find_by(remember_token: params["token"]);
 	end
 end
 

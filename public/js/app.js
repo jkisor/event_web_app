@@ -1,4 +1,10 @@
-var eventApp = angular.module('eventApp', ['ngRoute', 'eventApp.services', 'eventApp.controllers'])
+var eventApp = angular.module('eventApp', [
+    'ngRoute', 
+    'eventApp.services', 
+    'eventApp.controllers', 
+    'eventApp.directives', 
+    'eventApp.filters'
+]);
 
 eventApp.config(function($routeProvider) {
     $routeProvider.when('/events', { controller: 'EventsController', templateUrl: 'partials/events/index.html' });

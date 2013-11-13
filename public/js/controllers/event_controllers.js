@@ -4,12 +4,13 @@ app.controller('EventDetailController',
 	function($scope, $routeParams, $location, 
 		EventService, UserSessionService, User, Event) 
 	{
-		var user = $scope.user = new User();
 		var event = $scope.event = new Event();
 
 		//user
+		var user = new User();
     	var u = UserSessionService.currentUser();
-    	angular.extend($scope.user, u);
+    	angular.extend(user, u);
+    	$scope.user = user;
 
     	//event
 		EventService.show({id: $routeParams.id}, function(e) 
@@ -23,14 +24,14 @@ app.controller('EventDetailController',
       		$location.path('/events')
     	};
 
-		$scope.attend = function() 
-		{
+		$scope.attend = function() {
 			event.register(user);
 
 			EventService.update(event, 
 				function(e) {
 				angular.extend($scope.event, e);
 			});
+			// UserSessionService.setCurrentUser(user);
 
 		}
 
@@ -42,6 +43,8 @@ app.controller('EventDetailController',
     			function(e) {
 				angular.extend($scope.event, e);
 			});
+			// UserSessionService.setCurrentUser(user);
+
     	}
 
     	$scope.isUserAttending = function()
@@ -53,12 +56,6 @@ app.controller('EventDetailController',
     	{
     		$location.path('/users/' + userId)
     	}
-
-    	var renderUser = function(userData)
-    	{
-    		angular.extend($scope.user, userData);
-    	}
-
 	}
 );
 
@@ -80,7 +77,8 @@ app.controller('NewEventController',
 
 app.controller('EventsController', 
 	function($scope, $location, EventsFactory, UserSessionService) {
-		$scope.show = function(eventId) {
+		$scope.show = function(eventId) 
+		{
 			$location.path('/events/'+eventId)
 		}
 
