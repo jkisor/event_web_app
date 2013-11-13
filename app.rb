@@ -31,8 +31,19 @@ get '/events' do
 	# json Event.all
 end
 
-# get '/events/new' do
-# end
+put '/events/:id' do |id|
+	params = JSON.parse(request.body.read)
+
+	event = Event.find(id)
+
+	event.users = []
+	params["users"].each do |user|
+		event.users << User.find(user["id"]);
+	end
+	
+	event.save
+	event.to_json(include: :users)
+end
 
 
 post '/events' do
@@ -66,35 +77,13 @@ put '/users/:id' do |id|
 	# params = JSON.parse(request.body.read)
 	params = JSON.parse(request.body.read)
 
-
-	# params["events_attributes"] = params.delete("events")
-
-	puts "////////////////////////////////////////////"
-	puts params
-
-	puts "////////////////////////////////////////////"
 	user = User.find(id)
-	# user.build(params)
-	# user.save
-
-	# @order = @customer.orders.build(@data[:order])
-	# User.find(id).update_attributes(params)
-	# params["events_attributes"].each do |event|
-	
-
 
 	user.events = []
 	params["events"].each do |event|
 		user.events << Event.find(event["id"]);
 	end
-	#below works
-	# params["events"].each do |event|
-	# 	foundEvent = Event.find(event["id"]);
-
-	# 	if !user.events.include?(foundEvent)
-	# 		user.events << foundEvent
-	# 	end
-	# end
+	
 	user.save
 	user.to_json(include: :events)
 end

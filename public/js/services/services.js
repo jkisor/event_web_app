@@ -42,21 +42,35 @@ services.value('User', User);
 
 var Event = function() 
 {
+    var self = this;
     this.users = [];
-    
+
     this.register = function(user) 
     {
-        
+        this.users.push(user);    
     };
 
-    this.unregister = function() 
+    this.unregister = function(user) 
     {
+        removeUser(user);
     };
 
-    this.isUserRegistered = function(user) 
+    this.indexOfUser = function(user)
     {
-        return this.users.indexOf(user) > -1;
+        for(var i = 0; i < this.users.length; i++)
+        {
+            if(this.users[i].id == user.id)
+                return i;
+        }       
+        return -1;
     } 
+
+    var removeUser = function(user)
+    {
+        var index = self.indexOfUser(user);
+        if(index > -1)
+            self.users.splice(index, 1);           
+    }
             
 }
 
@@ -146,7 +160,7 @@ services.factory('EventFactory',
         console.log("EventFactory");
         return $resource('/events/:id', {}, {
             show: { method: 'GET' },
-            // update: { method: 'PUT', params: {id: '@id'} },
+            update: { method: 'PUT', params: {id: '@id'} },
             delete: { method: 'DELETE', params: { id: '@id' } }
     });
 });

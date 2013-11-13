@@ -23,22 +23,38 @@ app.controller('EventDetailController',
     	$scope.attend = function() {
     		//Todo: update "event" too that the list in the view is updated
     		
-    		$scope.user.attend($scope.event);
-    		UserFactory.update($scope.user, renderUser);
+    		// $scope.user.attend($scope.event);
+    		// UserFactory.update($scope.user, renderUser);
+    		$scope.event.register($scope.user);
+    		EventFactory.update($scope.event, 
+    			function(e) {
+				angular.extend($scope.event, e);
+			});
+
     	}
 
     	$scope.unattend = function() {
 
     		//Todo: update "event" too that the list in the view is updated
-    		$scope.user.unattend($scope.event);
-    		UserFactory.update($scope.user, renderUser);
+    		// $scope.user.unattend($scope.event);
+    		// UserFactory.update($scope.user, renderUser);
+
+    		$scope.event.unregister($scope.user);
+    		EventFactory.update($scope.event, 
+    			function(e) {
+				angular.extend($scope.event, e);
+			});
     	}
 
     	$scope.isUserAttending = function()
     	{
     		// doesnt update unregister/register button: find out why.
     	    //return user.isAttending($scope.event) > -1;
-    		return $scope.user.indexOfEvent($scope.event) > -1;
+    		
+    		//works in user verson
+    		//return $scope.user.indexOfEvent($scope.event) > -1;
+
+    		return $scope.event.indexOfUser($scope.user) > -1;
     	}
 
     	$scope.showUser = function(userId) {
