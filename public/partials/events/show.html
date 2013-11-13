@@ -4,17 +4,17 @@
 		<li class="previous"><a href="#">&larr; Back to list</a></li>
 	</ul>
 	<div class="jumbotron">
-	  <h1>{{eventModel.name}}</h1>
-	  <p>Where: {{eventModel.location}}</p>
-	  <p>When: {{eventModel.datetime}}</p>
+	  <h1>{{event.name}}</h1>
+	  <p>Where: {{event.location}}</p>
+	  <p>When: {{event.datetime}}</p>
 	  Details:
-	  <p class="well">{{eventModel.description}}</p>
+	  <p class="well">{{event.description}}</p>
 	  <p>
-		<span ng-hide="isUserAttending(userModel)">
-			<button class="btn btn-primary btn-lg" role="button" ng-click="attend(eventModel)">Register</button>
+		<span ng-hide="isUserAttending()">
+			<button class="btn btn-primary btn-lg" role="button" ng-click="attend()">Register</button>
 	    </span>
-	    <span ng-show="isUserAttending(userModel)">
-	    	<button class="btn btn-primary btn-lg" role="button" ng-click="unattend(eventModel)">Unregister</button>
+	    <span ng-show="isUserAttending()">
+	    	<button class="btn btn-primary btn-lg" role="button" ng-click="unattend()">Unregister</button>
 	    </span>
 	  	
 <!-- 	  	<button class="btn btn-primary btn-lg" role="button" ng-click="register(user)">Old Attend</button> -->
@@ -23,7 +23,7 @@
 	</div>
 	<p>Attendees</p>
 	<ul class="list-group">
-		<li class="list-group-item" ng-repeat="user in eventModel.users">
+		<li class="list-group-item" ng-repeat="user in event.users">
 			<a ng-click="showUser(user.id)">{{user.name}}</a>
 		</li>
 	</ul>

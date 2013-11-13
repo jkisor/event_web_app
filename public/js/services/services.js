@@ -1,6 +1,71 @@
 var services = angular.module('eventApp.services', ['ngResource', 'ngCookies']);
 
 // var baseUrl = 'http://localhost\\:8080';
+var User = function() {
+    var self = this;
+
+    this.events = [];
+    this.attend = function(event)
+    {
+        this.events.push(event);
+    }
+
+    this.unattend = function(event) 
+    {
+        removeEvent(event);
+    }
+
+    this.isAttending = function(event) 
+    {
+        return this.indexOfEvent(event) > -1;
+    }
+
+    this.indexOfEvent = function(event)
+    {
+        for(var i = 0; i < this.events.length; i++)
+        {
+            if(this.events[i].id == event.id)
+                return i;
+        }       
+        return -1;
+    } 
+
+    var removeEvent = function(event)
+    {
+        var index = self.indexOfEvent(event);
+        if(index > -1)
+            self.events.splice(index, 1);           
+    }
+};
+services.value('User', User);
+
+
+var Event = function() 
+{
+    this.users = [];
+    
+    this.register = function(user) 
+    {
+        
+    };
+
+    this.unregister = function() 
+    {
+    };
+
+    this.isUserRegistered = function(user) 
+    {
+        return this.users.indexOf(user) > -1;
+    } 
+            
+}
+
+services.value('Event', Event);
+
+
+
+// services.factory('Klass', function() { return Klass;})
+
 
 services.service('userModel', 
     function() {
