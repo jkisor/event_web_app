@@ -1,7 +1,9 @@
 <div class="container">
 	<h2>Events</h2>
 	<h6>Signed in as: <a ng-click="showUser()">{{ user.name }}</a></h6>
-
+    <div ng-show="permission.admin"> 
+        <button class="btn btn-primary" ng-click="createEvent()">Create Event</button>
+    </div>
     <span ng-show="user != null"> 
         <button class="btn btn-primary" ng-click="signOut()">Sign Out</button>
     </span>
@@ -21,10 +23,20 @@
     <rsvp-tabs>
       <rsvp-pane title="My Events">
         <ul class="list-group">
-            <li class="list-group-item" ng-repeat="event in user.events | filter:search">
+           <!--  <li class="list-group-item" ng-repeat="event in user.events | filter:search"> -->
+            <li class="list-group-item" ng-repeat="event in events | filter:search | attendedBy: user">
                 
                 <button class="btn btn-primary" ng-click="unattend(event)">Unattend</button>
-                {{event.name}}
+                
+                <a ng-click="printEvent(event)">{{event.name}}</a>
+                
+                <br/>
+                <ul class="list-group">
+                <!-- TODO NOT WORKING -->
+                    <li class="list-group-item" ng-repeat="u in event.users">
+                        <a ng-click="">{{u.name}}</a>
+                    </li>
+                </ul>
 
             </li>
         </ul>
@@ -32,7 +44,13 @@
       <rsvp-pane title="Available Events">
             <li class="list-group-item" ng-repeat="event in events | filter:search | availableEvents: user">
                 <button class="btn btn-primary" ng-click="attend(event)">Attend</button>
-                {{event.name}}                
+                <a ng-click="printEvent(event)">{{event.name}}</a> 
+
+                <ul class="list-group">
+                    <li class="list-group-item" ng-repeat="u in event.users">
+                        <a ng-click="">{{u.name}}</a>
+                    </li>
+                </ul>             
             </li>
       </rsvp-pane>
     </rsvp-tabs>

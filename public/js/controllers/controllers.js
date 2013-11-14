@@ -43,6 +43,10 @@ app.controller('SigninController',
 		    		console.log("sign in failure!");
 		    	});
 		}
+
+		$scope.createAccount = function() {
+			$location.path("/signup")
+		}
 	}
 );
 

@@ -1,3 +1,5 @@
+var baseUrl = "http://localhost:9393/#";
+
 var eventApp = angular.module('eventApp', [
     'ngRoute', 
     'eventApp.services', 
@@ -17,6 +19,7 @@ eventApp.config(function($routeProvider) {
     // $routeProvider.when('/users/:id', { controller: })
     $routeProvider.otherwise({ redirectTo: '/events' });
  });
+
 
 eventApp.run(
 	function run($rootScope, $route, $location, UserSessionService, SessionFactory) 
@@ -43,9 +46,15 @@ eventApp.run(
         $rootScope.$on('$locationChangeStart', 
             function(event, next, current) 
             { 
-                console.log(next);
+
+                if(next == (baseUrl + "/signup"))
+                    return;   
+
+                // console.log(next);
                 if(UserSessionService.currentUser() == null)
+                {
                     $location.path('/signin');
+                }
             }
         );
     }

@@ -30,12 +30,20 @@ var User = function() {
         return -1;
     } 
 
+    this.isAdmin = function()
+    {
+        console.log("admin? " + this.admin);
+        return this.admin;
+    }
+
     var removeEvent = function(event)
     {
         var index = self.indexOfEvent(event);
         if(index > -1)
             self.events.splice(index, 1);           
     }
+
+
 };
 services.value('User', User);
 
@@ -43,10 +51,12 @@ services.value('User', User);
 var Event = function() 
 {
     var self = this;
+    
     this.users = [];
 
     this.register = function(user) 
     {
+        console.log("push to users");
         this.users.push(user);    
     };
 

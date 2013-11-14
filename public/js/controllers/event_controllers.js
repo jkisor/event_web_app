@@ -78,13 +78,13 @@ app.controller('EventsController',
 	function($scope, $routeParams, $location, 
 		EventService, UserService, UserSessionService, EventsFactory, User, Event) 
 	{
-
 		var events = $scope.events = [];
 		EventsFactory.query(function(listOfEvents){
 			for(var i = 0; i < listOfEvents.length; i++)
 			{
 				var e = new Event();
 				angular.extend(e, listOfEvents[i]);
+
 				events.push(e);
 			}
 			$scope.events = events;
@@ -96,26 +96,37 @@ app.controller('EventsController',
     	angular.extend(user, u);
     	$scope.user = user;
 
+    	$scope.permission = {
+         	admin: user.isAdmin()
+     	}
+
 
 		$scope.attend = function(event) {
 			user.attend(event);
+
 			UserService.update(user, 
-				function(updatedUser) {
-					angular.extend(user, updatedUser);
-					updateView();
+				function(updatedUserData) {
+					angular.extend(user, updatedUserData);
 					UserSessionService.setCurrentUser(user); //
+
+					event.register(updatedUserData);
+					updateView();				
 				}
 			);
+
 		}
 
     	$scope.unattend = function(event) 
     	{
 			user.unattend(event);
+
 			UserService.update(user, 
-				function(updatedUser) {
-					angular.extend(user, updatedUser);
-					updateView();
+				function(updatedUserData) {
+					angular.extend(user, updatedUserData);
 					UserSessionService.setCurrentUser(user); //
+
+					event.unregister(updatedUserData);
+					updateView();
 				}
 			);
     	}
@@ -131,9 +142,15 @@ app.controller('EventsController',
 			$location.path('/signin');
 		}
 
+		$scope.printEvent = function(event)
+		{
+			console.log(event);
+		}
+
 		var updateView = function()
 		{
 			$scope.user = user;
+			$scope.events = events;
 		}
 	}
 );
