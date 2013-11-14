@@ -8,30 +8,32 @@ var eventApp = angular.module('eventApp', [
     'eventApp.filters'
 ]);
 
+eventApp.value('User', User);
+eventApp.value('Event', Event)
+
 eventApp.config(function($routeProvider) {
     $routeProvider.when('/events', { controller: 'EventsController', templateUrl: 'partials/events/index.html' });
     $routeProvider.when('/events/new', { controller: 'NewEventController', templateUrl: 'partials/events/new.html' });
     $routeProvider.when('/events/:id', { controller: 'EditEventController', templateUrl: 'partials/events/edit.html' });
     $routeProvider.when('/users/:id', { controller: 'UserDetailController', templateUrl: 'partials/users/show.html' });
-    
     $routeProvider.when('/signup', { controller: 'NewUserController', templateUrl: 'partials/users/signup.html' });
     $routeProvider.when('/signin', { controller: 'SigninController', templateUrl: 'partials/users/signin.html' })
-    // $routeProvider.when('/users/:id', { controller: })
+
     $routeProvider.otherwise({ redirectTo: '/events' });
  });
 
 
 eventApp.run(
-	function run($rootScope, $route, $location, UserSessionService, SessionFactory) 
+	function run($rootScope, $route, $location, SessionService, SignInService) 
     {    
-        var token = UserSessionService.token();
+        var token = SessionService.token();
 
         if(token != null)
         {
-            SessionFactory.create({token:token}, 
+            SignInService.create({token:token}, 
                 function(response) 
                 { 
-                    UserSessionService.signIn(response);
+                    SessionService.signIn(response);
                     $location.path('/events');
                 },
                 function() 
@@ -41,20 +43,14 @@ eventApp.run(
             );
         }
 
-
-
         $rootScope.$on('$locationChangeStart', 
             function(event, next, current) 
             { 
-
                 if(next == (baseUrl + "/signup"))
                     return;   
 
-                // console.log(next);
-                if(UserSessionService.currentUser() == null)
-                {
+                if(SessionService.currentUser() == null)
                     $location.path('/signin');
-                }
             }
         );
     }

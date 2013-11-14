@@ -12,29 +12,29 @@ app.controller('UserDetailController',
 );
 
 app.controller('NewUserController', 
-	function($scope, $location, UsersFactory) {
+	function($scope, $location, UsersService) {
 		$scope.createUser = function()
 		{
-			UsersFactory.create($scope.user);
+			UsersService.create($scope.user);
 			$location.path('/events')
 		}
 	}
 );
 
 app.controller('SigninController',
-	function($scope, $location, SessionFactory, UserSessionService) {
+	function($scope, $location, SignInService, SessionService) {
 		$scope.createSession = function() {
 			var credentials = $scope.credentials;
 
 			// console.log(credentials.username)
 			// console.log(credentials.password)
 
-		    SessionFactory.create($scope.credentials, 
+		    SignInService.create($scope.credentials, 
 		    	function(response) { 
 		    		// console.log("sign in success! :" + response.remember_token);
 		    		
-		    		UserSessionService.signIn(response);
-		    		// console.log("From token service: " + UserSessionService.currentUser().name);
+		    		SessionService.signIn(response);
+		    		// console.log("From token service: " + SessionService.currentUser().name);
 		    		
 		    		$location.path('/events');
 
@@ -51,7 +51,7 @@ app.controller('SigninController',
 );
 
 app.controller('NavBarController', 
-	function($scope, $location, UserSessionService) {
+	function($scope, $location, SessionService) {
 		$scope.newUser = function() {
 			$location.path('/signup')
 		}
@@ -64,6 +64,6 @@ app.controller('NavBarController',
 			$location.path('/users/' + $scope.currentUser.id)
 		}
 		
-		$scope.currentUser = UserSessionService.currentUser();
+		$scope.currentUser = SessionService.currentUser();
 	}
 );

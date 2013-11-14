@@ -2,13 +2,13 @@ var app = angular.module('eventApp.controllers');
 
 // app.controller('EventDetailController', 
 // 	function($scope, $routeParams, $location, 
-// 		EventService, UserSessionService, User, Event) 
+// 		EventService, SessionService, User, Event) 
 // 	{
 // 		var event = $scope.event = new Event();
 
 // 		//user
 // 		var user = new User();
-//     	var u = UserSessionService.currentUser();
+//     	var u = SessionService.currentUser();
 //     	angular.extend(user, u);
 //     	$scope.user = user;
 
@@ -31,7 +31,7 @@ var app = angular.module('eventApp.controllers');
 // 				function(e) {
 // 				angular.extend($scope.event, e);
 // 			});
-// 			// UserSessionService.setCurrentUser(user);
+// 			// SessionService.setCurrentUser(user);
 
 // 		}
 
@@ -43,7 +43,7 @@ var app = angular.module('eventApp.controllers');
 //     			function(e) {
 // 				angular.extend($scope.event, e);
 // 			});
-// 			// UserSessionService.setCurrentUser(user);
+// 			// SessionService.setCurrentUser(user);
 
 //     	}
 
@@ -87,9 +87,9 @@ app.controller('EditEventController',
 );
 
 app.controller('NewEventController', 
-	function($scope, EventsFactory, $location){
+	function($scope, EventsService, $location){
 		$scope.createEvent = function() {
-		    EventsFactory.create($scope.event, 
+		    EventsService.create($scope.event, 
 		    	function() { 
 		    		console.log("success!");
 		    	},
@@ -103,10 +103,10 @@ app.controller('NewEventController',
 
 app.controller('EventsController', 
 	function($scope, $routeParams, $location, 
-		EventService, UserService, UserSessionService, EventsFactory, User, Event) 
+		EventService, UserService, SessionService, EventsService, User, Event) 
 	{
 		var events = $scope.events = [];
-		EventsFactory.query(function(listOfEvents){
+		EventsService.query(function(listOfEvents){
 			for(var i = 0; i < listOfEvents.length; i++)
 			{
 				var e = new Event();
@@ -119,7 +119,7 @@ app.controller('EventsController',
 		});
 		//user
 		var user = new User();
-    	var u = UserSessionService.currentUser();
+    	var u = SessionService.currentUser();
     	angular.extend(user, u);
     	$scope.user = user;
 
@@ -134,7 +134,7 @@ app.controller('EventsController',
 			UserService.update(user, 
 				function(updatedUserData) {
 					angular.extend(user, updatedUserData);
-					UserSessionService.setCurrentUser(user); //
+					SessionService.setCurrentUser(user); //
 
 					event.register(updatedUserData);
 					updateView();				
@@ -150,7 +150,7 @@ app.controller('EventsController',
 			UserService.update(user, 
 				function(updatedUserData) {
 					angular.extend(user, updatedUserData);
-					UserSessionService.setCurrentUser(user); //
+					SessionService.setCurrentUser(user); //
 
 					event.unregister(updatedUserData);
 					updateView();
@@ -165,7 +165,7 @@ app.controller('EventsController',
 
 		$scope.signOut = function()
 		{
-			UserSessionService.signOut();
+			SessionService.signOut();
 			$location.path('/signin');
 		}
 
