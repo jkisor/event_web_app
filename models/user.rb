@@ -4,13 +4,18 @@ class User < ActiveRecord::Base
 
 	attr_accessor :password, :password_confirmation
 	
-	validates_presence_of :name
+	validates_presence_of :name, :password, :password_confirmation
+
+	validates_uniqueness_of :email, :name 
+	validates_confirmation_of :password
+
+	VALID_EMAIL_REGEX = /\A[\w+\-.]+@[a-z\d\-]+(\.[a-z]+)*\.[a-z]+\z/i
+	validates_format_of :email, with: VALID_EMAIL_REGEX
 
 	before_create :encrypt_password
 	before_create :create_remember_token
-	
 
-
+	before_save { self.email.downcase! }
 
 	def self.new_remember_token
 		SecureRandom.urlsafe_base64
