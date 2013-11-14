@@ -1,61 +1,88 @@
 var app = angular.module('eventApp.controllers');
 
-app.controller('EventDetailController', 
-	function($scope, $routeParams, $location, 
-		EventService, UserSessionService, User, Event) 
+// app.controller('EventDetailController', 
+// 	function($scope, $routeParams, $location, 
+// 		EventService, UserSessionService, User, Event) 
+// 	{
+// 		var event = $scope.event = new Event();
+
+// 		//user
+// 		var user = new User();
+//     	var u = UserSessionService.currentUser();
+//     	angular.extend(user, u);
+//     	$scope.user = user;
+
+//     	//event
+// 		EventService.show({id: $routeParams.id}, function(e) 
+// 		{
+// 			angular.extend($scope.event, e);
+// 		});
+
+// 		$scope.deleteEvent = function (eventId) 
+// 		{
+//       		EventService.delete({ id: eventId });
+//       		$location.path('/events')
+//     	};
+
+// 		$scope.attend = function() {
+// 			event.register(user);
+
+// 			EventService.update(event, 
+// 				function(e) {
+// 				angular.extend($scope.event, e);
+// 			});
+// 			// UserSessionService.setCurrentUser(user);
+
+// 		}
+
+//     	$scope.unattend = function() 
+//     	{
+//     		event.unregister(user);
+
+//     		EventService.update(event, 
+//     			function(e) {
+// 				angular.extend($scope.event, e);
+// 			});
+// 			// UserSessionService.setCurrentUser(user);
+
+//     	}
+
+//     	$scope.isUserAttending = function()
+//     	{
+//     		return event.indexOfUser(user) > -1;
+//     	}
+
+//     	$scope.showUser = function(userId) 
+//     	{
+//     		$location.path('/users/' + userId)
+//     	}
+// 	}
+// );
+
+app.controller('EditEventController', 
+	function($scope, $routeParams, $location, EventService)
 	{
-		var event = $scope.event = new Event();
+ 		var event = $scope.event = new Event();
 
-		//user
-		var user = new User();
-    	var u = UserSessionService.currentUser();
-    	angular.extend(user, u);
-    	$scope.user = user;
-
-    	//event
 		EventService.show({id: $routeParams.id}, function(e) 
 		{
 			angular.extend($scope.event, e);
 		});
 
-		$scope.deleteEvent = function (eventId) 
+		$scope.save = function()
 		{
-      		EventService.delete({ id: eventId });
-      		$location.path('/events')
-    	};
+			console.log($scope.event);
 
-		$scope.attend = function() {
-			event.register(user);
-
-			EventService.update(event, 
-				function(e) {
-				angular.extend($scope.event, e);
-			});
-			// UserSessionService.setCurrentUser(user);
-
+			EventService.update($scope.event, 
+				function(updatedEventData){
+					// console.log(updatedEventData);
+					$location.path('/events');
+				},
+				function(){
+					console.log("save failed");
+				}
+			);
 		}
-
-    	$scope.unattend = function() 
-    	{
-    		event.unregister(user);
-
-    		EventService.update(event, 
-    			function(e) {
-				angular.extend($scope.event, e);
-			});
-			// UserSessionService.setCurrentUser(user);
-
-    	}
-
-    	$scope.isUserAttending = function()
-    	{
-    		return event.indexOfUser(user) > -1;
-    	}
-
-    	$scope.showUser = function(userId) 
-    	{
-    		$location.path('/users/' + userId)
-    	}
 	}
 );
 
@@ -147,6 +174,13 @@ app.controller('EventsController',
 			console.log(event);
 		}
 
+		$scope.createEvent = function() {
+		    $location.path('/events/new');
+		}
+
+		$scope.edit = function(eventId) {
+			$location.path('/events/' + eventId);
+		}
 		var updateView = function()
 		{
 			$scope.user = user;

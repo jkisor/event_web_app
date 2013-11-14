@@ -35,13 +35,14 @@ put '/events/:id' do |id|
 	params = JSON.parse(request.body.read)
 
 	event = Event.find(id)
-
-	event.users = []
-	params["users"].each do |user|
-		event.users << User.find(user["id"]);
-	end
+	event.update_attributes(params);
 	
-	event.save
+	# event.users = []
+	# params["users"].each do |user|
+	# 	event.users << User.find(user["id"]);
+	# end
+	
+	# event.save
 	event.to_json(include: :users)
 end
 
