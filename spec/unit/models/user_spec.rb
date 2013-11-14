@@ -16,7 +16,8 @@ describe User do
     :password_confirmation, 
     :password_hash, 
     :password_salt, 
-    :events
+    :events,
+    :admin
   ].each do |message|
     it { should respond_to message }
   end
@@ -110,5 +111,14 @@ describe User do
   			expect(User.authenticate(found_user.name, @user.password)).to eq(@user)
   		end
   	end
+  end
+
+  describe "when flagged as admin" do
+    before do
+      @user.save!
+      @user.toggle!(:admin)
+    end
+
+    it { should be_admin }
   end
 end
