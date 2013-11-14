@@ -12,8 +12,7 @@ put '/users/:id' do |id|
 end
 
 post '/users' do
-
 	params = JSON.parse(request.body.read)
-	user = User.new(params)
-	user.save
+	
+	user = User.create!(params)
 end
