@@ -8,11 +8,13 @@ describe User do
 	subject { @user }
 	
 	it { should respond_to :name }
+  it { should respond_to :email }
 	it { should respond_to :password }
 	it { should respond_to :password_confirmation }
 
 	it { should respond_to :password_hash }
 	it { should respond_to :password_salt }
+
   it { should respond_to :events }
 
 	describe "when name is not present" do

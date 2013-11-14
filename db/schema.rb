@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20131111051416) do
+ActiveRecord::Schema.define(version: 20131114052137) do
 
   create_table "events", force: true do |t|
     t.string   "name"
@@ -35,6 +35,7 @@ ActiveRecord::Schema.define(version: 20131111051416) do
     t.string   "remember_token"
     t.binary   "password_hash"
     t.binary   "password_salt"
+    t.string   "email"
   end
 
   add_index "users", ["remember_token"], name: "index_users_on_remember_token"
