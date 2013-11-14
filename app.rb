@@ -79,13 +79,14 @@ put '/users/:id' do |id|
 	params = JSON.parse(request.body.read)
 
 	user = User.find(id)
+	user.update_attributes(params);
 
-	user.events = []
-	params["events"].each do |event|
-		user.events << Event.find(event["id"]);
-	end
+	# user.events = []
+	# params["events"].each do |event|
+	# 	user.events << Event.find(event["id"]);
+	# end
 	
-	user.save
+	# user.save
 	user.to_json(include: :events)
 end
 

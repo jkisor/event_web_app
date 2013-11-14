@@ -4,7 +4,9 @@ class User < ActiveRecord::Base
 
 	attr_accessor :password, :password_confirmation
 	
-	validates_presence_of :name, :password, :password_confirmation
+	validates_presence_of :name
+	validates_presence_of :password, :on => :create
+	validates_presence_of :password_confirmation, :on => :create
 
 	validates_uniqueness_of :email, :name 
 	validates_confirmation_of :password
@@ -33,6 +35,19 @@ class User < ActiveRecord::Base
 			nil
 		end 
   	end
+
+  	# Since the whole events blob is sent instead of id's... this is a quick fix.
+	def update_attributes(attributes)
+        if attributes.include? "events"
+            eventIDs = []  
+            attributes["events"].each { |e| eventIDs << e["id"]; }
+            attributes.delete "events"
+
+            attributes["event_ids"] = eventIDs;
+           
+        end
+        super(attributes)
+    end
 
 	private
 	
