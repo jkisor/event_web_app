@@ -74,41 +74,66 @@ app.controller('NewEventController',
 	}
 );
 
-
 app.controller('EventsController', 
-	function($scope, $location, EventsFactory, UserSessionService) {
-		$scope.show = function(eventId) 
+	function($scope, $routeParams, $location, 
+		EventService, UserService, UserSessionService, EventsFactory, User, Event) 
+	{
+
+		var events = $scope.events = [];
+		EventsFactory.query(function(listOfEvents){
+			for(var i = 0; i < listOfEvents.length; i++)
+			{
+				var e = new Event();
+				angular.extend(e, listOfEvents[i]);
+				events.push(e);
+			}
+			$scope.events = events;
+
+		});
+		//user
+		var user = new User();
+    	var u = UserSessionService.currentUser();
+    	angular.extend(user, u);
+    	$scope.user = user;
+
+
+		$scope.attend = function(event) {
+			user.attend(event);
+			UserService.update(user, 
+				function(updatedUser) {
+					angular.extend(user, updatedUser);
+					updateView();
+					UserSessionService.setCurrentUser(user); //
+				}
+			);
+		}
+
+    	$scope.unattend = function(event) 
+    	{
+			user.unattend(event);
+			UserService.update(user, 
+				function(updatedUser) {
+					angular.extend(user, updatedUser);
+					updateView();
+					UserSessionService.setCurrentUser(user); //
+				}
+			);
+    	}
+
+    	$scope.show = function(eventId) 
 		{
 			$location.path('/events/'+eventId)
-		}
-
-		$scope.newEvent = function()
-		{
-			$location.path('/events/new')
-		}
-
-		$scope.newUser = function()
-		{
-			$location.path('/signup')
-		}
-
-		$scope.signIn = function()
-		{
-			$location.path('/signin')
 		}
 
 		$scope.signOut = function()
 		{
 			UserSessionService.signOut();
-			$scope.signIn();
+			$location.path('/signin');
 		}
 
-		$scope.showUser = function()
+		var updateView = function()
 		{
-			$location.path('/users/' + $scope.currentUser.id)
+			$scope.user = user;
 		}
-
-		$scope.events = EventsFactory.query(); //successCallback, errorCallback
-		$scope.currentUser = UserSessionService.currentUser();
 	}
 );

@@ -1,7 +1,14 @@
 var filters = angular.module('eventApp.filters', []);
 
-filters.filter('reverse', function() {
-	return function(text) {
-		return text.split("").reverse().join("");
+filters.filter('availableEvents', function() {
+	return function(events, user) {
+		var availableEvents = [];
+		for(var i = 0; i < events.length; i++)
+		{
+			var event = events[i];
+			if(!user.isAttending(event))
+				availableEvents.push(event);
+		}
+		return availableEvents;
 	}	
 })

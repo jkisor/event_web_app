@@ -126,6 +126,7 @@ services.factory('UserSessionService',
     function($cookieStore) {
         var currentUser = null;
         return {
+            setCurrentUser: function(u) { currentUser = u; },
             currentUser: function() { return currentUser },
             token: function() { return $cookieStore.get('remember_token') },
             signIn: function(user) {

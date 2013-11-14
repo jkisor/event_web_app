@@ -15,7 +15,6 @@ directives.directive('rsvpTabs', function() {
       transclude: true,
       scope: {},
       controller: function($scope) {
-        console.log("Directive controller!");
         var panes = $scope.panes = [];
  
         $scope.select = function(pane) {

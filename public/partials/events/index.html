@@ -1,69 +1,38 @@
 <div class="container">
 	<h2>Events</h2>
-	<h6>Signed in as: <a ng-click="showUser()">{{ currentUser.name }}</a></h6>
+	<h6>Signed in as: <a ng-click="showUser()">{{ user.name }}</a></h6>
 
-<!--     <span ng-show="currentUser == null">
-    	<button class="btn btn-primary" ng-click="newUser()">Signup</button>
-    	<button class="btn btn-primary" ng-click="signIn()">Signin</button>
-    </span> -->
-    <span ng-show="currentUser != null"> 
+    <span ng-show="user != null"> 
         <button class="btn btn-primary" ng-click="signOut()">Sign Out</button>
     </span>
 
-    <!-- <div rsvp-greeting></div> -->
-
-<!--     <ul class="list-group">
-        <li class="list-group-item" ng-repeat="event in events">
-            <button class="btn btn-primary" ng-click="show(event.id)">Show</button>
-        	{{event.name}}
-            <span>
-				Name: {{event.name}}, Location: {{event.location}}, DateTime: {{event.datetime}} 
-			</span>
-        </li>
-    </ul> -->
     <br/>
     <br/>
     <div class="row">
-    <div class="input-group input-group">
-            <span class="input-group-addon"> 
-                <i class="glyphicon glyphicon-search"></i>
-            </span> 
-            <input type="text" class="form-control" placeholder="Search" ng-model="search.name">
-    </div>
+        <div class="input-group input-group">
+                <span class="input-group-addon"> 
+                    <i class="glyphicon glyphicon-search"></i>
+                </span> 
+                <input type="text" class="form-control" placeholder="Search" ng-model="search.name">
+        </div>
     </div>
     <br/>
     <br/>
     <rsvp-tabs>
       <rsvp-pane title="My Events">
-        <!-- <div class="panel"> -->
-            
-        <!-- </div> -->
-
         <ul class="list-group">
-            <li class="list-group-item" ng-repeat="event in currentUser.events | filter:search">
+            <li class="list-group-item" ng-repeat="event in user.events | filter:search">
                 
-                <a ng-click="viewEvent(event.id)">{{event.name}}</a>
-                <!-- <a ng-click="viewEvent(event.id)">{{event.name | reverse}}</a> -->
-            </li>
+                <button class="btn btn-primary" ng-click="unattend(event)">Unattend</button>
+                {{event.name}}
 
-        <!-- <li class="list-group-item" ng-repeat="event in events">
-            <button class="btn btn-primary" ng-click="show(event.id)">Attend</button>
-            {{event.name}}
-           <span>
-                Name: {{event.name}}, Location: {{event.location}}, DateTime: {{event.datetime}} 
-            </span>
-            
-        </li> -->
+            </li>
         </ul>
       </rsvp-pane>
       <rsvp-pane title="Available Events">
-            <li class="list-group-item" ng-repeat="event in events">
-                <button class="btn btn-primary" ng-click="show(event.id)">Attend</button>
-                {{event.name}}
-<!--                <span>
-                    Name: {{event.name}}, Location: {{event.location}}, DateTime: {{event.datetime}} 
-                </span> -->
-                
+            <li class="list-group-item" ng-repeat="event in events | filter:search | availableEvents: user">
+                <button class="btn btn-primary" ng-click="attend(event)">Attend</button>
+                {{event.name}}                
             </li>
       </rsvp-pane>
     </rsvp-tabs>
