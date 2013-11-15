@@ -1,7 +1,7 @@
 var app = angular.module('eventApp.controllers');
 
 app.controller('EditEventController', 
-	function($scope, $routeParams, $location, EventService)
+	function($scope, $routeParams, $location, $filter, EventService)
 	{
  		var event = $scope.event = new Event();
 
@@ -125,11 +125,6 @@ app.controller('EventsController',
 			);
     	}
 
-  //   	$scope.show = function(eventId) 
-		// {
-		// 	$location.path('/events/'+eventId)
-		// }
-
 		$scope.signOut = function()
 		{
 			SessionService.signOut();
@@ -149,9 +144,8 @@ app.controller('EventsController',
       		EventService.delete({ id: eventId },
       			function()
       			{
-      				// TODO: maybe not do this.
       				user.unattend(eventId);
-      				// $location.path('/') // quick way to refresh... reroute to page
+
       				events = [];
 					EventsService.query(function(listOfEvents){
 						for(var i = 0; i < listOfEvents.length; i++)
@@ -161,20 +155,12 @@ app.controller('EventsController',
 
 							events.push(e);
 						}
-						// $scope.events = events;
       					updateView();
-
 					});
 
       			}
       		);
-      		// $location.path('/events')
     	};
-
-    	$scope.hi = function(event)
-    	{
-    		console.log(event.name);
-    	}
 
 		var updateView = function()
 		{
