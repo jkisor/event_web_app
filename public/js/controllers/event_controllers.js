@@ -89,6 +89,10 @@ app.controller('EditEventController',
 app.controller('NewEventController', 
 	function($scope, EventsService, $location){
 		$scope.createEvent = function() {
+			// console.log($scope.date);
+			// console.log("javascript date :");
+			// console.log(new Date());
+
 		    EventsService.create($scope.event, 
 		    	function() { 
 		    		console.log("success!");

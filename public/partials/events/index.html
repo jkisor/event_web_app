@@ -11,42 +11,93 @@
     <br/>
     <br/>
     <div class="row">
-        <div class="input-group input-group">
-                <span class="input-group-addon"> 
-                    <i class="glyphicon glyphicon-search"></i>
-                </span> 
-                <input type="text" class="form-control" placeholder="Search" ng-model="search.name">
+
+        <div class="col-md-6">
+
+            <div class="input-group input-group">
+                    <span class="input-group-addon"> 
+                        <i class="glyphicon glyphicon-search"></i>
+                    </span> 
+                    <input type="text" class="form-control" placeholder="Search" ng-model="search.name">
+            </div>
         </div>
     </div>
     <br/>
     <br/>
-    <rsvp-tabs>
-      <rsvp-pane title="My Events">
-        <ul class="list-group">
-           <!--  <li class="list-group-item" ng-repeat="event in user.events | filter:search"> -->
-            <li class="list-group-item" ng-repeat="event in events | filter:search | attendedBy: user">
-                
-                <button class="btn btn-primary" ng-click="unattend(event)">Unattend</button>
-                
-                <a ng-click="printEvent(event)">{{event.name}}</a>
-                
-                <br/>
+    <div class="row">
+        <rsvp-tabs>
 
-                <admin-buttons ng-if="permission.admin"></admin-buttons>
-            </li>
-        </ul>
-      </rsvp-pane>
-      <rsvp-pane title="Available Events">
-            <li class="list-group-item" ng-repeat="event in events | filter:search | availableEvents: user">
-                <button class="btn btn-primary" ng-click="attend(event)">Attend</button>
-                <a ng-click="printEvent(event)">{{event.name}}</a> 
+          <rsvp-pane title="My Events">
+            <!-- <events myfilter="filter:search | attendedBy:user">
+            </events>       -->  
+            <ul class="list-group">
+                <li class="list-group-item" ng-repeat="event in events | filter:search | attendedBy: user">
+                    <!-- <div event></div> -->
 
-                <br/>
+                    <div class="panel panel-default">
+                        <div class="panel-heading">
+                            <h3 class="panel-title">
+                            {{event.name}}
+                            </h3>
+                        </div>
+                        <div class="panel-body">
 
-                <admin-buttons ng-if="permission.admin"></admin-buttons>       
-            </li>
-      </rsvp-pane>
-    </rsvp-tabs>
+                            <dl>
+                              <dt>Where</dt>
+                              <dd>{{event.location}}</dd>
 
+                              <dt>When</dt>
+                              <dd>TODO{{event.datetime}}</dd>
+
+                              <dt>Details</dt>
+                              <dd>{{event.description}}</dd>
+                            </dl>
+                            
+                        
+                            <br/>
+                        </div>
+                        <div class="panel-footer">
+                             <button class="btn btn-primary" ng-click="unattend(event)">Unattend</button>
+                            <admin-buttons ng-if="permission.admin"></admin-buttons>
+                        </div>
+                    </div>    
+                </li>
+            </ul>
+          </rsvp-pane>
+          <rsvp-pane title="Available Events">
+                <li class="list-group-item" ng-repeat="event in events | filter:search | availableEvents: user">
+                    <div class="panel panel-default">
+                        <div class="panel-heading">
+                            <h3 class="panel-title">
+                            {{event.name}}
+                            </h3>
+                        </div>
+
+                        <div class="panel-body">
+                            <dl>
+                              <dt>Where</dt>
+                              <dd>{{event.location}}</dd>
+
+                              <dt>When</dt>
+                              <dd>TODO{{event.datetime}}</dd>
+
+                              <dt>Details</dt>
+                              <dd>{{event.description}}</dd>
+                            </dl>
+                        </div>
+                        <div class="panel-footer">
+                            <button class="btn btn-primary" ng-click="attend(event)">Attend</button>
+                            <admin-buttons ng-if="permission.admin"></admin-buttons>
+                        </div>
+                    </div>
+    <!--                 <ul class="list-group">
+                        <li class="list-group-item" ng-repeat="u in event.users">
+                            <a ng-click="">{{u.name}}</a>
+                        </li>
+                    </ul>    -->          
+                </li>
+          </rsvp-pane>
+        </rsvp-tabs>
+    </div>
     
 </div>
