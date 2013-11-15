@@ -1,6 +1,10 @@
 var baseUrl = "http://localhost:9393/#";
 
 //Modules
+angular.module('eventApp.controllers', [])
+angular.module('eventApp.directives', [])
+angular.module('eventApp.services', ['ngResource', 'ngCookies'])
+angular.module('eventApp.filters', [])
 
 //App
 var eventApp = angular.module('eventApp', [
@@ -14,15 +18,17 @@ var eventApp = angular.module('eventApp', [
 //Models
 eventApp.value('User', User);
 eventApp.value('Event', Event)
+eventApp.value('DateTimeExtractor', DateTimeExtractor)
+
 
 
 //Routes
 eventApp.config(function($routeProvider) {
-    $routeProvider.when('/events', { controller: 'ManageEventsController', templateUrl: 'partials/events/index.html' });
-    $routeProvider.when('/events/new', { controller: 'NewEventController', templateUrl: 'partials/events/new.html' });
-    $routeProvider.when('/events/:id', { controller: 'EditEventController', templateUrl: 'partials/events/edit.html' });
-    $routeProvider.when('/signup', { controller: 'NewUserController', templateUrl: 'partials/users/signup.html' });
-    $routeProvider.when('/signin', { controller: 'SigninController', templateUrl: 'partials/users/signin.html' })
+    $routeProvider.when('/events', { controller: 'ManageEventsController', templateUrl: 'html/events/index.html' });
+    $routeProvider.when('/events/new', { controller: 'NewEventController', templateUrl: 'html/events/new.html' });
+    $routeProvider.when('/events/:id', { controller: 'EditEventController', templateUrl: 'html/events/edit.html' });
+    $routeProvider.when('/signup', { controller: 'NewUserController', templateUrl: 'html/users/signup.html' });
+    $routeProvider.when('/signin', { controller: 'SigninController', templateUrl: 'html/users/signin.html' })
 
     $routeProvider.otherwise({ redirectTo: '/events' });
  });

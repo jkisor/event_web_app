@@ -23,8 +23,8 @@
         <div search-bar class="col-xs-5 pull-right">
         </div>
     </div>
-        <rsvp-tabs>
-            <rsvp-pane title="Available Events">
+        <tabs>
+            <pane title="Available Events">
                 <div class="well">
                     <div ng-repeat="event in events | filter:search | availableEvents: user">
                         <event>
@@ -32,8 +32,8 @@
                         </event>
                     </div>
                 </div>
-            </rsvp-pane>
-            <rsvp-pane title="My Events">
+            </pane>
+            <pane title="My Events">
                 <div class="well">
                     <div ng-repeat="event in events | filter:search | attendedBy: user">
                         <event>
@@ -41,7 +41,7 @@
                         </event>
                     </div>
                 </div>
-            </rsvp-pane>
+            </pane>
           
-        </rsvp-tabs>
+        </tabs>
 </div>

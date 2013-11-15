@@ -3,6 +3,6 @@ module.directive('event', function() {
 	return {
 		restrict: 'E',
 		transclude: true,
-		templateUrl: '/templates/event.html',
+		templateUrl: '/html/directives/event.html',
 	}
 });

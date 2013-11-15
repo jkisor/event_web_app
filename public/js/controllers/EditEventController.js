@@ -1,7 +1,8 @@
 var module = angular.module('eventApp.controllers');
 
 module.controller('EditEventController', 
-	function($scope, $routeParams, $location, $filter, EventService)
+	function($scope, $routeParams, $location, $filter, 
+		EventService, DateTimeExtractor)
 	{
  		var event = $scope.event = new Event();
 
@@ -10,8 +11,9 @@ module.controller('EditEventController',
 			angular.extend($scope.event, e);
 
 			var dateTime = $scope.event.datetime;
-			$scope.date = extractDate(dateTime);
-			$scope.time = extractTime(dateTime);
+			var tool = new DateTimeExtractor();
+			$scope.date = tool.extractDate(dateTime);
+			$scope.time = tool.extractTime(dateTime);
 		});
 
 		$scope.submit = function()
@@ -26,25 +28,6 @@ module.controller('EditEventController',
 					console.log("save failed");
 				}
 			);
-		}
-
-		var extractTime = function(dateTime)
-		{
-			if(dateTime == null)
-				return "";
-
-			var dateEnd = dateTime.indexOf('T');
-			var timeEnd = dateTime.indexOf('Z');
-			return dateTime.substr(dateEnd+1, (timeEnd-dateEnd)-1);		
-		}
-
-		var extractDate = function(dateTime)
-		{
-			if(dateTime == null)
-				return "";
-			
-			var dateEnd = dateTime.indexOf('T');
-			return dateTime.substr(0, dateEnd);		
 		}
 
 		var processDateTime = function() {

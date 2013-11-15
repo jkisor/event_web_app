@@ -2,7 +2,8 @@ var module = angular.module('eventApp.controllers');
 
 module.controller('ManageEventsController', 
 	function($scope, $routeParams, $location, 
-		EventService, UserService, SessionService, EventsService, User, Event) 
+		EventService, UserService, SessionService, 
+		EventsService, User, Event, DateTimeExtractor) 
 	{
 		var events = $scope.events = [];
 		EventsService.query(function(listOfEvents){
@@ -10,9 +11,11 @@ module.controller('ManageEventsController',
 			{
 				var event = new Event();
 				angular.extend(event, listOfEvents[i]);
+
 				var dateTime = event.datetime;
-				event.date = extractDate(dateTime);
-				event.time = extractTime(dateTime);
+				var tool = new DateTimeExtractor();
+				event.date = tool.extractDate(dateTime);
+				event.time = tool.extractTime(dateTime);
 
 				events.push(event);
 			}
@@ -100,24 +103,5 @@ module.controller('ManageEventsController',
 			$scope.user = user;
 			$scope.events = events;
 		};
-
-		var extractTime = function(dateTime)
-		{
-			if(dateTime == null)
-				return "TBD";
-
-			var dateEnd = dateTime.indexOf('T');
-			var timeEnd = dateTime.indexOf('Z');
-			return dateTime.substr(dateEnd+1, (timeEnd-dateEnd)-1);		
-		}
-
-		var extractDate = function(dateTime)
-		{
-			if(dateTime == null)
-				return "TBD";
-
-			var dateEnd = dateTime.indexOf('T');
-			return dateTime.substr(0, dateEnd);		
-		}
 	}
 );
