@@ -1,10 +1,6 @@
 require 'spec_helper'
 
 describe Event do
-# Name
-# Location
-# Description
-# Date/Time
 	before do 
 		@event = Event.new(name:"example")
 	end

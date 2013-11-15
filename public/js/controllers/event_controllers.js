@@ -171,6 +171,11 @@ app.controller('EventsController',
       		// $location.path('/events')
     	};
 
+    	$scope.hi = function(event)
+    	{
+    		console.log(event.name);
+    	}
+
 		var updateView = function()
 		{
 			$scope.user = user;

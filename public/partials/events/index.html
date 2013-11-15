@@ -11,14 +11,13 @@
     <br/>
     <br/>
     <div class="row">
-
         <div class="col-xs-5 pull-right">
 
             <div class="input-group input-group">
                     <span class="input-group-addon"> 
                         <i class="glyphicon glyphicon-search"></i>
                     </span> 
-                    <input type="text" class="form-control" placeholder="Search" ng-model="search.name">
+                    <input type="text" class="form-control" placeholder="Search" ng-model="search.$">
             </div>
         </div>
     </div>
@@ -26,73 +25,19 @@
         <rsvp-tabs>
 
           <rsvp-pane title="My Events">
-            <!-- <events myfilter="filter:search | attendedBy:user">
-            </events>       -->  
             <ul class="list-group">
                 <li class="list-group-item" ng-repeat="event in events | filter:search | attendedBy: user">
-                    <!-- <div event></div> -->
-
-                    <div class="panel panel-primary">
-                        <div class="panel-heading">
-                            <h3 class="panel-title">
-                            {{event.name}}
-                            </h3>
-                        </div>
-                        <div class="panel-body">
-
-                            <dl>                            
-                              <dt>When</dt>
-                              <dd>{{ event.date | date: MM-dd-YY }} @ {{ event.time }}</dd>
-
-                              <dt>Where</dt>
-                              <dd>{{ event.location }}</dd>
-
-                              <dt>Details</dt>
-                              <dd>{{ event.description }}</dd>
-                            </dl>
-                            
-                        
-                            <br/>
-                        </div>
-                        <div class="panel-footer">
-                             <button class="btn btn-primary" ng-click="unattend(event)">Unattend</button>
-                            <admin-buttons ng-if="permission.admin"></admin-buttons>
-                        </div>
-                    </div>    
+                    <event>
+                        <button class="btn btn-primary" ng-click="unattend(event)">Unattend</button>
+                    </event>
                 </li>
             </ul>
           </rsvp-pane>
           <rsvp-pane title="Available Events">
                 <li class="list-group-item" ng-repeat="event in events | filter:search | availableEvents: user">
-                    <div class="panel panel-primary">
-                        <div class="panel-heading">
-                            <h3 class="panel-title">
-                            {{event.name}}
-                            </h3>
-                        </div>
-
-                        <div class="panel-body">
-                            <dl>                            
-                              <dt>When</dt>
-                              <dd>{{ event.date | date: MM-dd-YY }} @ {{ event.time }}</dd>
-
-                              <dt>Where</dt>
-                              <dd>{{ event.location }}</dd>
-
-                              <dt>Details</dt>
-                              <dd>{{ event.description }}</dd>
-                            </dl>
-                        </div>
-                        <div class="panel-footer">
-                            <button class="btn btn-primary" ng-click="attend(event)">Attend</button>
-                            <admin-buttons ng-if="permission.admin"></admin-buttons>
-                        </div>
-                    </div>
-    <!--                 <ul class="list-group">
-                        <li class="list-group-item" ng-repeat="u in event.users">
-                            <a ng-click="">{{u.name}}</a>
-                        </li>
-                    </ul>    -->          
+                    <event>
+                        <button class="btn btn-primary" ng-click="attend(event)">Attend</button>
+                    </event>
                 </li>
           </rsvp-pane>
         </rsvp-tabs>
