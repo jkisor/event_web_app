@@ -1,6 +1,5 @@
-var directives = angular.module('eventApp.directives', []);
-
-directives.directive('rsvpGreeting', function(){
+var module = angular.module('eventApp.directives', []);
+module.directive('rsvpGreeting', function(){
   return {
     // use templateUrl to break up into individual html files
       //works like ngInclude
@@ -9,7 +8,7 @@ directives.directive('rsvpGreeting', function(){
   }
 });
 
-directives.directive('rsvpTabs', function() {
+module.directive('rsvpTabs', function() {
     return {
       restrict: 'E',
       transclude: true,
@@ -35,17 +34,17 @@ directives.directive('rsvpTabs', function() {
     };
   })
 
-  directives.directive('rsvpPane', function() {
-    return {
-      require: '^rsvpTabs',
-      restrict: 'E',
-      transclude: true,
-      scope: {
-        title: '@'
-      },
-      link: function(scope, element, attrs, tabsController) {
-        tabsController.addPane(scope);
-      },
-      templateUrl: '/templates/rsvp-pane.html'
-    };
-  });
+module.directive('rsvpPane', function() {
+  return {
+    require: '^rsvpTabs',
+    restrict: 'E',
+    transclude: true,
+    scope: {
+      title: '@'
+    },
+    link: function(scope, element, attrs, tabsController) {
+      tabsController.addPane(scope);
+    },
+    templateUrl: '/templates/rsvp-pane.html'
+  };
+});

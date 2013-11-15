@@ -181,10 +181,38 @@ app.controller('EventsController',
 		$scope.edit = function(eventId) {
 			$location.path('/events/' + eventId);
 		}
+		
+		$scope.cancel = function(eventId) 
+		{
+      		EventService.delete({ id: eventId },
+      			function()
+      			{
+      				// TODO: maybe not do this.
+      				user.unattend(eventId);
+      				// $location.path('/') // quick way to refresh... reroute to page
+      				events = [];
+					EventsService.query(function(listOfEvents){
+						for(var i = 0; i < listOfEvents.length; i++)
+						{
+							var e = new Event();
+							angular.extend(e, listOfEvents[i]);
+
+							events.push(e);
+						}
+						// $scope.events = events;
+      					updateView();
+
+					});
+
+      			}
+      		);
+      		// $location.path('/events')
+    	};
+
 		var updateView = function()
 		{
 			$scope.user = user;
 			$scope.events = events;
-		}
+		};
 	}
 );

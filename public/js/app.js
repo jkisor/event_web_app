@@ -38,7 +38,7 @@ eventApp.run(
                 },
                 function() 
                 {
-                    console.log("sign in failure!");
+                    console.log("Signin failed.");
                 }
             );
         }

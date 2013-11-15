@@ -31,28 +31,8 @@
                 <a ng-click="printEvent(event)">{{event.name}}</a>
                 
                 <br/>
-                <div ng-show="permission.admin"> 
 
-                    <div class="btn-group">
-                        <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">
-                        Attendees <span class="caret"></span>
-                        </button>
-                        <ul class="dropdown-menu" role="menu">
-                            <li class="list-group-item" ng-repeat="u in event.users">
-                                <a ng-click="">{{u.name}}</a>
-                            </li>
-                        </ul>
-                    </div>
-
-                    <button class="btn btn-primary" ng-click="edit(event.id)">Edit</button>
-                </div>
-
-<!--                 <ul class="list-group">
-                    <li class="list-group-item" ng-repeat="u in event.users">
-                        <a ng-click="">{{u.name}}</a>
-                    </li>
-                </ul> -->
-
+                <admin-buttons ng-if="permission.admin"></admin-buttons>
             </li>
         </ul>
       </rsvp-pane>
@@ -63,26 +43,7 @@
 
                 <br/>
 
-                <div ng-show="permission.admin"> 
-
-                    <div class="btn-group">
-                        <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">
-                        Attendees <span class="caret"></span>
-                        </button>
-                        <ul class="dropdown-menu" role="menu">
-                            <li class="list-group-item" ng-repeat="u in event.users">
-                                <a ng-click="">{{u.name}}</a>
-                            </li>
-                        </ul>
-                    </div>
-                    <br/>
-                    <button class="btn btn-primary" ng-click="edit(event.id)">Edit</button>
-                </div>
-<!--                 <ul class="list-group">
-                    <li class="list-group-item" ng-repeat="u in event.users">
-                        <a ng-click="">{{u.name}}</a>
-                    </li>
-                </ul>    -->          
+                <admin-buttons ng-if="permission.admin"></admin-buttons>       
             </li>
       </rsvp-pane>
     </rsvp-tabs>
