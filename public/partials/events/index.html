@@ -24,23 +24,24 @@
         </div>
     </div>
         <rsvp-tabs>
-          <rsvp-pane title="My Events">
-            <div class="well">
-                <div ng-repeat="event in events | filter:search | attendedBy: user">
-                    <event>
-                        <button class="btn btn-primary" ng-click="unattend(event)">Unattend</button>
-                    </event>
-                </div>
-            </div>
-          </rsvp-pane>
-          <rsvp-pane title="Available Events">
+            <rsvp-pane title="Available Events">
                 <div class="well">
                     <div ng-repeat="event in events | filter:search | availableEvents: user">
                         <event>
-                            <button class="btn btn-primary" ng-click="attend(event)">Attend</button>
+                            <button class="btn btn-success" ng-click="attend(event)">Attend</button>
                         </event>
                     </div>
                 </div>
-          </rsvp-pane>
+            </rsvp-pane>
+            <rsvp-pane title="My Events">
+                <div class="well">
+                    <div ng-repeat="event in events | filter:search | attendedBy: user">
+                        <event>
+                            <button class="btn btn-danger" ng-click="unattend(event)">Unattend</button>
+                        </event>
+                    </div>
+                </div>
+            </rsvp-pane>
+          
         </rsvp-tabs>
 </div>

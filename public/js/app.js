@@ -1,5 +1,8 @@
 var baseUrl = "http://localhost:9393/#";
 
+//Modules
+
+//App
 var eventApp = angular.module('eventApp', [
     'ngRoute', 
     'eventApp.services', 
@@ -8,14 +11,16 @@ var eventApp = angular.module('eventApp', [
     'eventApp.filters'
 ]);
 
+//Models
 eventApp.value('User', User);
 eventApp.value('Event', Event)
 
+
+//Routes
 eventApp.config(function($routeProvider) {
-    $routeProvider.when('/events', { controller: 'EventsController', templateUrl: 'partials/events/index.html' });
+    $routeProvider.when('/events', { controller: 'ManageEventsController', templateUrl: 'partials/events/index.html' });
     $routeProvider.when('/events/new', { controller: 'NewEventController', templateUrl: 'partials/events/new.html' });
     $routeProvider.when('/events/:id', { controller: 'EditEventController', templateUrl: 'partials/events/edit.html' });
-    $routeProvider.when('/users/:id', { controller: 'UserDetailController', templateUrl: 'partials/users/show.html' });
     $routeProvider.when('/signup', { controller: 'NewUserController', templateUrl: 'partials/users/signup.html' });
     $routeProvider.when('/signin', { controller: 'SigninController', templateUrl: 'partials/users/signin.html' })
 
