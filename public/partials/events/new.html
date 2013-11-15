@@ -1,26 +1,29 @@
 <div class="container">
 	<form role="form">
 	  	<div class="form-group">
+	  		<label>Event Name</label>
 	    	<input type="text" class="form-control" placeholder="Event Name" ng-model="event.name">
 	  	</div>
-<!-- 	  	<div class="form-group">
-	  		<input type="date" ng-model="date">
-	  	</div>
 
 	  	<div class="form-group">
+	  		<label>Date and Time</label>
+	  		<br/>
+
+	  		<input type="date" ng-model="date"> @
 	  		<input type="time" ng-model="time">
-	  	</div> -->
-	  	<div class="form-group">
-	    	<input type="text" class="form-control" placeholder="Location" ng-model="event.location">
 	  	</div>
 	  	
-	  	<textarea class="form-control" rows="3" placeholder="Description" ng-model="event.description"></textarea>
+	  	<div class="form-group">
+	  		<label>Location</label>
+	    	<input type="text" class="form-control" placeholder="Location" ng-model="event.location">
+	  	</div>
+		
+		<div class="form-group">	  	
+	  		<label>Description</label>
+		  	<textarea class="form-control" rows="3" placeholder="Description" ng-model="event.description"></textarea>
+	  	</div>
 
-	  	<button class="btn btn-primary" ng-click="createEvent()">Submit</button>
+	  	<button class="btn btn-primary" ng-click="submit()">Submit</button>
 	</form>
-<!-- 	hi!
-	{{ date | date: 'MM-dd-yyyy' }}
-	{{ time}} -->
-
 
 </div>

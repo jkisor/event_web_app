@@ -1,64 +1,5 @@
 var app = angular.module('eventApp.controllers');
 
-// app.controller('EventDetailController', 
-// 	function($scope, $routeParams, $location, 
-// 		EventService, SessionService, User, Event) 
-// 	{
-// 		var event = $scope.event = new Event();
-
-// 		//user
-// 		var user = new User();
-//     	var u = SessionService.currentUser();
-//     	angular.extend(user, u);
-//     	$scope.user = user;
-
-//     	//event
-// 		EventService.show({id: $routeParams.id}, function(e) 
-// 		{
-// 			angular.extend($scope.event, e);
-// 		});
-
-// 		$scope.deleteEvent = function (eventId) 
-// 		{
-//       		EventService.delete({ id: eventId });
-//       		$location.path('/events')
-//     	};
-
-// 		$scope.attend = function() {
-// 			event.register(user);
-
-// 			EventService.update(event, 
-// 				function(e) {
-// 				angular.extend($scope.event, e);
-// 			});
-// 			// SessionService.setCurrentUser(user);
-
-// 		}
-
-//     	$scope.unattend = function() 
-//     	{
-//     		event.unregister(user);
-
-//     		EventService.update(event, 
-//     			function(e) {
-// 				angular.extend($scope.event, e);
-// 			});
-// 			// SessionService.setCurrentUser(user);
-
-//     	}
-
-//     	$scope.isUserAttending = function()
-//     	{
-//     		return event.indexOfUser(user) > -1;
-//     	}
-
-//     	$scope.showUser = function(userId) 
-//     	{
-//     		$location.path('/users/' + userId)
-//     	}
-// 	}
-// );
-
 app.controller('EditEventController', 
 	function($scope, $routeParams, $location, EventService)
 	{
@@ -67,15 +8,18 @@ app.controller('EditEventController',
 		EventService.show({id: $routeParams.id}, function(e) 
 		{
 			angular.extend($scope.event, e);
+
+			var dateTime = $scope.event.datetime;
+			$scope.date = extractDate(dateTime);
+			$scope.time = extractTime(dateTime);
 		});
 
-		$scope.save = function()
+		$scope.submit = function()
 		{
 			console.log($scope.event);
-
+			processDateTime();
 			EventService.update($scope.event, 
 				function(updatedEventData){
-					// console.log(updatedEventData);
 					$location.path('/events');
 				},
 				function(){
@@ -83,16 +27,30 @@ app.controller('EditEventController',
 				}
 			);
 		}
+
+		var extractTime = function(dateTime)
+		{
+			var dateEnd = dateTime.indexOf('T');
+			var timeEnd = dateTime.indexOf('Z');
+			return dateTime.substr(dateEnd+1, (timeEnd-dateEnd)-1);		
+		}
+
+		var extractDate = function(dateTime)
+		{
+			var dateEnd = dateTime.indexOf('T');
+			return dateTime.substr(0, dateEnd);		
+		}
+
+		var processDateTime = function() {
+			$scope.event.datetime = $scope.date + " " + $scope.time;
+		}
 	}
 );
 
 app.controller('NewEventController', 
 	function($scope, EventsService, $location){
-		$scope.createEvent = function() {
-			// console.log($scope.date);
-			// console.log("javascript date :");
-			// console.log(new Date());
-
+		$scope.submit = function() {
+			processDateTime();
 		    EventsService.create($scope.event, 
 		    	function() { 
 		    		console.log("success!");
@@ -101,6 +59,10 @@ app.controller('NewEventController',
 		    		console.log("failure!");
 		    	});
 		    $location.path('/events');
+		}
+
+		var processDateTime = function(){
+			$scope.event.datetime = $scope.date + " " + $scope.time;
 		}
 	}
 );
@@ -113,24 +75,25 @@ app.controller('EventsController',
 		EventsService.query(function(listOfEvents){
 			for(var i = 0; i < listOfEvents.length; i++)
 			{
-				var e = new Event();
-				angular.extend(e, listOfEvents[i]);
+				var event = new Event();
+				angular.extend(event, listOfEvents[i]);
+				var dateTime = event.datetime;
+				event.date = extractDate(dateTime);
+				event.time = extractTime(dateTime);
 
-				events.push(e);
+				events.push(event);
 			}
 			$scope.events = events;
 
 		});
-		//user
+
 		var user = new User();
-    	var u = SessionService.currentUser();
-    	angular.extend(user, u);
+    	angular.extend(user, SessionService.currentUser());
     	$scope.user = user;
 
     	$scope.permission = {
          	admin: user.isAdmin()
      	}
-
 
 		$scope.attend = function(event) {
 			user.attend(event);
@@ -162,20 +125,15 @@ app.controller('EventsController',
 			);
     	}
 
-    	$scope.show = function(eventId) 
-		{
-			$location.path('/events/'+eventId)
-		}
+  //   	$scope.show = function(eventId) 
+		// {
+		// 	$location.path('/events/'+eventId)
+		// }
 
 		$scope.signOut = function()
 		{
 			SessionService.signOut();
 			$location.path('/signin');
-		}
-
-		$scope.printEvent = function(event)
-		{
-			console.log(event);
 		}
 
 		$scope.createEvent = function() {
@@ -218,5 +176,24 @@ app.controller('EventsController',
 			$scope.user = user;
 			$scope.events = events;
 		};
+
+		var extractTime = function(dateTime)
+		{
+			if(dateTime == null)
+				return "TBD";
+
+			var dateEnd = dateTime.indexOf('T');
+			var timeEnd = dateTime.indexOf('Z');
+			return dateTime.substr(dateEnd+1, (timeEnd-dateEnd)-1);		
+		}
+
+		var extractDate = function(dateTime)
+		{
+			if(dateTime == null)
+				return "TBD";
+
+			var dateEnd = dateTime.indexOf('T');
+			return dateTime.substr(0, dateEnd);		
+		}
 	}
 );

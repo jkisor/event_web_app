@@ -12,7 +12,7 @@
     <br/>
     <div class="row">
 
-        <div class="col-md-6">
+        <div class="col-xs-5 pull-right">
 
             <div class="input-group input-group">
                     <span class="input-group-addon"> 
@@ -22,8 +22,6 @@
             </div>
         </div>
     </div>
-    <br/>
-    <br/>
     <div class="row">
         <rsvp-tabs>
 
@@ -34,7 +32,7 @@
                 <li class="list-group-item" ng-repeat="event in events | filter:search | attendedBy: user">
                     <!-- <div event></div> -->
 
-                    <div class="panel panel-default">
+                    <div class="panel panel-primary">
                         <div class="panel-heading">
                             <h3 class="panel-title">
                             {{event.name}}
@@ -42,15 +40,15 @@
                         </div>
                         <div class="panel-body">
 
-                            <dl>
-                              <dt>Where</dt>
-                              <dd>{{event.location}}</dd>
-
+                            <dl>                            
                               <dt>When</dt>
-                              <dd>TODO{{event.datetime}}</dd>
+                              <dd>{{ event.date | date: MM-dd-YY }} @ {{ event.time }}</dd>
+
+                              <dt>Where</dt>
+                              <dd>{{ event.location }}</dd>
 
                               <dt>Details</dt>
-                              <dd>{{event.description}}</dd>
+                              <dd>{{ event.description }}</dd>
                             </dl>
                             
                         
@@ -66,7 +64,7 @@
           </rsvp-pane>
           <rsvp-pane title="Available Events">
                 <li class="list-group-item" ng-repeat="event in events | filter:search | availableEvents: user">
-                    <div class="panel panel-default">
+                    <div class="panel panel-primary">
                         <div class="panel-heading">
                             <h3 class="panel-title">
                             {{event.name}}
@@ -74,15 +72,15 @@
                         </div>
 
                         <div class="panel-body">
-                            <dl>
-                              <dt>Where</dt>
-                              <dd>{{event.location}}</dd>
-
+                            <dl>                            
                               <dt>When</dt>
-                              <dd>TODO{{event.datetime}}</dd>
+                              <dd>{{ event.date | date: MM-dd-YY }} @ {{ event.time }}</dd>
+
+                              <dt>Where</dt>
+                              <dd>{{ event.location }}</dd>
 
                               <dt>Details</dt>
-                              <dd>{{event.description}}</dd>
+                              <dd>{{ event.description }}</dd>
                             </dl>
                         </div>
                         <div class="panel-footer">

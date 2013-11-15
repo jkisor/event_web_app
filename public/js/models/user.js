@@ -29,7 +29,6 @@ var User = function() {
 
     this.isAdmin = function()
     {
-        console.log("admin? " + this.admin);
         return this.admin;
     }
 
