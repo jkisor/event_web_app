@@ -6,7 +6,6 @@ var Event = function()
 
     this.register = function(user) 
     {
-        console.log("push to users");
         this.users.push(user);    
     };
 

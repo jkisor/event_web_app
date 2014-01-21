@@ -1,3 +1,4 @@
+ENV['RACK_ENV'] = 'test'
 require './app'
 require 'rack/test'
 require 'capybara'
@@ -5,8 +6,6 @@ require 'capybara/dsl'
 require 'capybara/webkit'
 require 'database_cleaner'
 require './helpers/session_helper'
-
-#ENV['RACK_ENV'] = 'test'
 
 #Suppress database output
 ActiveRecord::Base.logger.level = Logger::INFO

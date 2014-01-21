@@ -6,7 +6,7 @@ module.controller('EditEventController',
 	{
  		var event = $scope.event = new Event();
 
-		EventService.show({id: $routeParams.id}, function(e) 
+		EventService.find({id: $routeParams.id}, function(e) 
 		{
 			angular.extend($scope.event, e);
 
@@ -18,8 +18,7 @@ module.controller('EditEventController',
 
 		$scope.submit = function()
 		{
-			console.log($scope.event);
-			processDateTime();
+			prepareDateTime();
 			EventService.update($scope.event, 
 				function(updatedEventData){
 					$location.path('/events');
@@ -30,7 +29,7 @@ module.controller('EditEventController',
 			);
 		}
 
-		var processDateTime = function() {
+		var prepareDateTime = function() {
 			$scope.event.datetime = $scope.date + " " + $scope.time;
 		}
 	}

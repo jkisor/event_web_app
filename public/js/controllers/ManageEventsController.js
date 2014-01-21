@@ -6,7 +6,7 @@ module.controller('ManageEventsController',
 		EventsService, User, Event, DateTimeExtractor) 
 	{
 		var events = $scope.events = [];
-		EventsService.query(function(listOfEvents){
+		EventsService.all(function(listOfEvents){
 			for(var i = 0; i < listOfEvents.length; i++)
 			{
 				var event = new Event();
@@ -75,19 +75,24 @@ module.controller('ManageEventsController',
 			$location.path('/events/' + eventId);
 		}
 		
-		$scope.cancel = function(eventId) 
+		$scope.cancel = function(event) 
 		{
-      		EventService.delete({ id: eventId },
+      		EventService.delete({ id: event.id },
       			function()
       			{
-      				user.unattend(eventId);
+      				user.unattend(event);
 
       				events = [];
-					EventsService.query(function(listOfEvents){
+					EventsService.all(function(listOfEvents){
 						for(var i = 0; i < listOfEvents.length; i++)
 						{
 							var e = new Event();
 							angular.extend(e, listOfEvents[i]);
+
+							var dateTime = e.datetime;
+							var tool = new DateTimeExtractor();
+							e.date = tool.extractDate(dateTime);
+							e.time = tool.extractTime(dateTime);
 
 							events.push(e);
 						}

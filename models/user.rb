@@ -36,7 +36,6 @@ class User < ActiveRecord::Base
 		end 
   	end
 
-  	# Since the whole events blob is sent instead of id's... this is a quick fix.
 	def update_attributes(attributes)
         if attributes.include? "events"
             eventIDs = []  
